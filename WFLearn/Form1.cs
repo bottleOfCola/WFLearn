@@ -5,7 +5,6 @@ namespace WFLearn
     public partial class MB9 : Form
     {
         private bool lol = true;
-        private bool lol2 = true;
         public MB9()
         {
             InitializeComponent();
@@ -98,19 +97,24 @@ namespace WFLearn
         private void PG(object? sender, EventArgs e)
         {
             progressBar1.Visible = true;
-            Task.Run(PGCange);
-        }
-        async private void PGCange()
-        {
+            progressBar1.Maximum = 100;
             progressBar1.Value = 95;
-            while(progressBar1.Value != 100)
+            timer1.Interval = 1000;
+            timer1.Enabled = true;
+            timer1.Tick += TICK;
+            timer1.Start();
+        }
+
+        private void TICK(object? sender, EventArgs e)
+        {
+            if(progressBar1.Value == progressBar1.Maximum)
             {
-                progressBar1.Value += 1;
-                await Task.Delay(1000);
+                progressBar1.Visible = false;
+                progressBar1.Value = 0;
+                timer1.Stop();
+                MessageBox.Show("Выполнено");
             }
-            progressBar1.Visible = false;
-            progressBar1.Value = 0;
-            MessageBox.Show("Бу");
+            progressBar1.Value += 1;
         }
 
         private void DTPVC(object? sender, EventArgs e)
